@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/signup.css'%}" />
+</head>
+
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <h2>Login</h2>
+    <p id='cmand'> Login to start your Session</p>
+
+    
+    <p>
+        <label for="username" class="floatLabel labelstyl">Username</label>
+        <input id="username" name="username" type="text">
+    </p>
+   
+    <p>
+        <label for="password" class="floatLabel labelstyl">Password</label>
+        <input id="password" name="password" type="password">
+
+    </p>
+    
+    <div>
+        {% for message in messages %}
+        <p id='mpass'>{{message}}</p>
+        {% endfor %}
+    </div>
+    <p class="message">Don't Have an Account ? <a href="{% url 'signup' %}">Sign Up</a></p>
+    <p>
+        <input type="submit" value="Login" id="submit">
+    </p>
+    <p class="message">Forget Password? <a href="{% url 'reset_password' %}">Reset Password</a></p>
+</form>
+
+</body>
+
+</html>

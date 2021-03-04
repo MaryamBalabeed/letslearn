@@ -1,0 +1,41 @@
+      <div class="header-section text-center">
+        <h2>Take your quiz</h2>
+        <p>{{quiz.quiz_name}}</p>
+        <hr class="bottom-line" />
+        {% for question in qustions %}
+        <form id = 'formABC' method="POST" action="/takeQuiz/{{question.id}}">
+          {% csrf_token %}
+        <h3>{{question.question_name}} ?</h3>
+        {% for choice in question.choices %}
+        <input name='choices' type="radio" id ="choice{{choice.id}}" value="{{choice}}" > {{choice}}</input>
+        {% endfor %}
+        <!-- <h1>{{UserAnswer.score}}</h1> -->
+       {% if score.score == 0 %}
+        <h4> Incorrect </h4>
+        {% elif score.score == 1 %}
+        <h4> correct </h4>
+        {% endif %} 
+        <br>
+      <input type="submit" id ='btnSubmit' class="btn btn-green" name ="submit_button" value="Clicked!"/>
+      </form>
+      {% endfor %}
+      </div>
+      <div>
+        {% for message in messages %}
+        <p id='mpass'>{{message}}</p>
+        {% endfor %}
+    </div>
+    </div>
+  </div>
+</section>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#formABC").submit(function (e) {
+    //stop submitting the form to see the disabled button effect
+    e.preventDefault();
+    //disable the submit button
+    $("#btnSubmit").attr("disabled", true);
+    return true;
+    });
+  });
+</script>

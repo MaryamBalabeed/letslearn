@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/signup.css'%}" />
+</head>
+
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <h2>Sign Up</h2>
+    <p id='cmand'> please fill in the form to create your account</p>
+
+    <p>
+        <label for="first_name" class="floatLabel labelstyl">First Name</label>
+        <input id="first_name" name="first_name" type="text">
+    </p>
+    <p>
+        <label for="last_name" class="floatLabel labelstyl">Last Name</label>
+        <input id="last_name" name="last_name" type="text">
+    </p>
+    <p>
+        <label for="username" class="floatLabel labelstyl">Username</label>
+        <input id="username" name="username" type="text">
+    </p>
+    <p>
+        <label for="email" class="floatLabel labelstyl">Email</label>
+        <input id="email" name="email" type="text">
+    </p>
+    <p>
+        <label for="password" class="floatLabel labelstyl">Password</label>
+        <input id="password" name="password1" type="password">
+
+    </p>
+    <p>
+        <label for="confirm_password" class="floatLabel labelstyl">Confirm Password</label>
+        <input id=" confirm_password" name="password2" type="password">
+
+    </p>
+
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="role" id="flexRadioDefault1" value="teacher">
+        <label class="form-check-label" for="flexRadioDefault1">
+            Teacher
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="role" id="flexRadioDefault2" value="learner" checked>
+        <label class="form-check-label" for="flexRadioDefault2">
+            Learner
+        </label>
+    </div>
+
+
+    <div>
+        {% for message in messages %}
+        <p id='mpass'>{{message}}</p>
+        {% endfor %}
+    </div>
+    <p class="message">Are you Already registered? <a href="{% url 'login' %}">Login</a></p>
+    <p>
+        <input type="submit" value="Sign Up" id="submit">
+    </p>
+
+</form>
+
+</body>
+
+</html>

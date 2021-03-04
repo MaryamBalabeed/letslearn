@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section id="courses" class="section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="header-section text-center">
+        <br />
+        {% include 'messages.html' %}
+        <h2>My Courses</h2>
+        <p>
+          <br />
+        </p>
+        <hr class="bottom-line" />
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      {% for course in courses %}
+      <div class="col-md-4 col-sm-6 padleft-right">
+        <figure class="imghvr-fold-up">
+          <img
+            src="{{ course.course_image.url }}"
+            width="400px"
+            height="350px"
+          />
+          <figcaption>
+            <h3>{{ course.course_name }}</h3>
+            <p>{{ course.description }}</p>
+          </figcaption>
+          <a href="/lessons/{{course.id}}"></a>
+        </figure>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

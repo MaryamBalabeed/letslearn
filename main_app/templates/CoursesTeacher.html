@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section id="courses" class="section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="header-section text-center">
+        <h2>Courses</h2>
+        <p></p>
+        <hr class="bottom-line" />
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      {% for course in courses %}
+      <div class="col-md-4 col-sm-6 padleft-right">
+        <figure class="imghvr-fold-up">
+          <img
+            src="{{ course.course_image.url }}"
+            width="400px"
+            height="350px"
+          />
+          <figcaption>
+            <h3>{{ course.course_name }}</h3>
+            <p>{{ course.description }}</p>
+          </figcaption>
+          <a href="/lessons/{{course.id}}"></a>
+        </figure>
+        <div class="buttonCard">
+          <a href="/TeacherCourses/update/{{ course.id }}"
+            ><button class="btn btn-info">Edit</button></a
+          >
+          <a href="/TeacherCourses/delete/{{ course.id }}"
+            ><button class="btn btn-danger">Delete</button></a
+          >
+        </div>
+      </div>
+      {% endfor %}
+      <div class="col-md-4 col-sm-6 padleft-right">
+        <a href="/TeacherCourses/create/">
+          <figure>
+            <img
+              src="{% static 'img/AddCourse.png' %}"
+              width="400px"
+              height="350px"
+            />
+            <figcaption>
+              <h3>Add New Course</h3>
+              <p></p>
+            </figcaption>
+          </figure>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

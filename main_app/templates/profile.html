@@ -1,0 +1,79 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<!-- Learner Profile -->
+<!-- {% if user.is_authenticated and user.is_staff == False %} -->
+
+{% include 'messages.html' %}
+
+  <div class="container" style="background-color: rgb(226, 226, 226); width: 100%;">
+    <br>
+    <br>
+    {% include 'messages.html' %}
+    <div class="main-body">
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="https://img.pngio.com/user-logos-user-logo-png-1920_1280.png" alt="Admin"class="rounded-circle" width="150">
+                        </div>
+                    </div>
+                </div>
+             <div class="card mt-3">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <a href="/profile/{{user.id}}/update">
+                                <span class="text-secondary">Your Account</span>
+                            </a>
+                        </li>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <a href="/courses">
+                                <span class="text-secondary">My Courses</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <a href="/change_password/">
+                                <span class="text-secondary">Change Password</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8 cards">
+                <h3 style="text-align: center; font-weight: bold; position: absolute; top: 0;left: 0; right: 0;">
+                    Your Account
+                </h3>
+                <div class="profile_form">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                        {% endfor %}
+                        {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            <!-- This For The Label's input -->
+                            {{ field.label_tag }}
+                            <!-- This for input field -->
+                            {{ field }}
+                            <!-- This if the input has a hint for a user -->
+                            {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {{field.password}}
+                        </div>
+                        {% endfor %}
+                        <input type="file" name="image" id="imgInp">
+                        <br>
+                        <input type="submit" value="Update!" class="btn btn-success">
+                        <a href="/change_password">
+                            Do you want to change your
+                            password?
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- {% endif %} -->
+{% endblock %}

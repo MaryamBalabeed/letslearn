@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section id="courses" class="section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="header-section text-center">
+        <h2>My Quizzes</h2>
+        <p>
+          <br />
+          <br />
+        </p>
+        <hr class="bottom-line" />
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Course</th>
+            <th scope="col">Quiz</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for course in courses %} {% for quize in quizes %}
+          <tr>
+            <th scope="row">{{course.id}}</th>
+            <td>{{course.course_name}}</td>
+            <td>{{quize.quiz_name}}</td>
+          </tr>
+          {% endfor %} {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<br />
+<br />
+<br />
+{% endblock %}

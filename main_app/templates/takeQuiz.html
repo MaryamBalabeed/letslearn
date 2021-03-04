@@ -1,0 +1,226 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mentor Education Bootstrap Theme</title>
+    <meta
+      name="description"
+      content="Free Bootstrap Theme by BootstrapMade.com"
+    />
+    <meta
+      name="keywords"
+      content="free website templates, free bootstrap themes, free template, free bootstrap, free website template"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fonts.googleapis.com/css?family=Open+Sans%7CCandal%7CAlegreya+Sans"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/font-awesome.min.css'%}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/bootstrap.min.css'%}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/imagehover.min.css'%}"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/quiz.css'%}?{% now 'U' %}" />
+    <!-- =======================================================
+    Theme Name: Mentor
+    Theme URL: https://bootstrapmade.com/mentor-free-education-bootstrap-theme/
+    Author: BootstrapMade.com
+    Author URL: https://bootstrapmade.com
+  ======================================================= -->
+  </head>
+  <body>
+    <div id="page-container">
+    <!--Navigation bar-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target="#myNavbar"
+          >
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Men<span>tor</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#feature">Features</a></li>
+            <li><a href="#organisations">Organisations</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li>
+              <a href="#" data-target="#login" data-toggle="modal">Sign in</a>
+            </li>
+            <li>
+              <a href="#" data-target="#login" data-toggle="modal">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="row">
+        <div class="column side">
+          <!-- sidebar-search  -->
+          <div class="sidenav">
+            <ul>
+              <li class="header-menu">
+                <span>{{course.course_name}}</span>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="lessons/2">
+                  <i class="fa fa-tachometer-alt"></i>
+                  <span>Lessons</span>
+                  <span class="badge badge-pill badge-warning">New</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    {% for lesson in lessons %}
+                    <li>
+                      <a href="#"
+                        >{{lesson.lesson_name}}
+                        <span class="badge badge-pill badge-success">Pro</span>
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </li>
+              <li class="header-menu">
+                <span>Extra</span>
+              </li>
+              <li>
+                <a href="/takeQuiz">
+                  <i class="fa fa-book"></i>
+                  <span>Quick Quziz</span>
+                  <span class="badge badge-pill badge-primary">Beta</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="fa fa-calendar"></i>
+                  <span>Calendar</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="fa fa-folder"></i>
+                  <span>Examples</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- sidebar-menu  -->
+        </div>
+        <div class="column middle">
+    <!-- Quiz  -->
+    <div class="row">
+      {% for question in qustions %}
+        <div class="column side"></div>
+        <div class="column middle">
+          <div class="container-fluid ">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h2>{{quiz.quiz_name}}</h2>
+                  <h3>
+                    <span class="label label-warning" id="qid">{{question.id}} </span> {{question.question_name}}
+                  </h3>
+                </div>
+                <div class="modal-body">
+                  <div class="col-xs-3 col-xs-offset-5">
+                    <div id="loadbar" style="display: none">
+                      <div class="blockG" id="rotateG_01"></div>
+                      <div class="blockG" id="rotateG_02"></div>
+                      <div class="blockG" id="rotateG_03"></div>
+                      <div class="blockG" id="rotateG_04"></div>
+                      <div class="blockG" id="rotateG_05"></div>
+                      <div class="blockG" id="rotateG_06"></div>
+                      <div class="blockG" id="rotateG_07"></div>
+                      <div class="blockG" id="rotateG_08"></div>
+                    </div>
+                  </div>
+                  <form method="POST" action="/takeQuiz/{{question.id}}">
+                    {% csrf_token %}
+                  <div class="quiz" id="quiz" data-toggle="buttons">
+                    {% for choice in question.choices %}                    
+                    <label class="element-animation1 btn btn-lg btn-primary btn-block"
+                      ><span class="btn-label"
+                        ><i class="glyphicon glyphicon-chevron-right"></i
+                      ></span>
+                      <input name='choices' type="radio" id ="choice{{choice.id}}" value="{{choice}}" />{{choice}}</label
+                    >
+                    {% endfor %}
+                  </div>
+                  <br>
+                  {% if score == 0 %}
+                  <p> Incorrect </p>
+                  {% elif score == 1 %}
+                  <p> correct </p>
+                  {% endif %}
+                <input class='btn btn-dark' type="submit" name ="submit_button" value="Clicked!"/>
+                </form>
+                </div>
+                <div class="modal-footer text-muted">
+                  <span id="answer"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column side"></div>
+      </div>
+      {% endfor %}
+      <!-- End of quiz -->
+        </div>
+        <div class="column side"></div>
+      </div>
+    <footer id="footer" class="footer">
+        <div class="container text-center">
+          <!-- End newsletter-form -->
+          <ul class="social-links">
+            <li>
+              <a href="#link"><i class="fa fa-twitter fa-fw"></i></a>
+            </li>
+            <li>
+              <a href="#link"><i class="fa fa-facebook fa-fw"></i></a>
+            </li>
+            <li>
+              <a href="#link"><i class="fa fa-google-plus fa-fw"></i></a>
+            </li>
+            <li>
+              <a href="#link"><i class="fa fa-dribbble fa-fw"></i></a>
+            </li>
+            <li>
+              <a href="#link"><i class="fa fa-linkedin fa-fw"></i></a>
+            </li>
+          </ul>
+          ©2021 Team 3. All rights reserved
+          </div>
+        </div>
+      </footer>
+      <!--/ Footer-->
+    </div>
+      <script src="{% static 'js/jquery.min.js' %}"></script>
+      <script src="{% static 'js/jquery.easing.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'js/quiz.js' %}"></script>
+      <script src="{% static 'contactform/contactform.js' %}"></script>
+    </body>
+    </html>

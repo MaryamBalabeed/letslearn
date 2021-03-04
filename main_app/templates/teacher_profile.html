@@ -1,0 +1,80 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+    <div style="background-color: rgb(226, 226, 226); width: 100%;" class="container">
+        <br>
+        <br>
+        {% include 'messages.html' %}
+        <div class="main-body">
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                    <img src="https://img.pngio.com/user-logos-user-logo-png-1920_1280.png" id="blah" alt="your image"
+                                        class="rounded-circle" width="150">
+                                <div class="mt-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <a href="/TeacherCourses/create/"><span class="text-secondary">Add Course</span></a>
+                            </li>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <a href="/TeacherCourses/{{user.id}}/"><span class="text-secondary">My Courses</span></a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <a href="/GetQuiz/"><span class="text-secondary">My Quizzes</span></a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <a href="/TeacherCourses/lesson/create/"><span class="text-secondary">Add Lesson</span></a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <a href="/TeacherCourses/quiz/create/"><span class="text-secondary">Add Quiz</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-8 cards">
+                    <h3 style="text-align: center; font-weight: bold; position: absolute; top: 0;left: 0; right: 0;">
+                        Your Account </h3>
+                    <div class="profile_form">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% for hidden_field in form.hidden_fields %}
+                            {{ hidden_field }}
+                            {% endfor %}
+                            {% for field in form.visible_fields %}
+                            <div class="form-group">
+                                <!-- This For The Label's input -->
+                                {{ field.label_tag }}
+                                <!-- This for input field -->
+                                {{ field }}
+                                <!-- This if the input has a hint for a user -->
+                                {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                                {{field.password}}
+                            </div>
+                            {% endfor %}
+                            <input type='file' name="image" id="imgInp" />
+                            <!-- <label for="major">Major</label>
+                            <input type="text" class="form-control" id="major" name="major" value="{{user.user_profile.major}}"> -->
+                            <!-- <br>
+                            <label for="experience">Experience</label>
+                            <input type="text" class="form-control" id="experience" name="experience">
+                            <br> -->
+                            <br>
+                            <input type="submit" value="Update!" class="btn btn-success">
+                            <a href="/change_password" >Do you want to change your
+                                password?</a>
+                            <!-- <button class="btn btn-info">Do you want to change your password?</button> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

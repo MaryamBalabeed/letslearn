@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section id="contact" class="section-padding">
+  <div class="container content">
+    <div class="row">
+      <div class="header-section text-center">
+        <h2>Create Quiz</h2>
+        <p>
+          <br />
+        </p>
+        <hr class="bottom-line" />
+      </div>
+      <div id="sendmessage">Your message has been sent. Thank you!</div>
+      <div id="errormessage"></div>
+      <div class="form-group createClass">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %} {{ form }}
+          <hr />
+          {% for formset in inlines %} {{ formset }}
+          <hr />
+          {% endfor %}
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

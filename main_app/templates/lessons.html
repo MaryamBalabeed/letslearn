@@ -1,0 +1,200 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="row">
+  <div class="lnav">
+    <!-- sidebar-search  -->
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/lessons.css' %}?{% now 'U' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U' %}" />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <nav class="navbar navbar-default sidebar" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target="#bs-sidebar-navbar-collapse-1"
+          >
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="/"
+                >Home<span
+                  style="font-size: 16px"
+                  class="pull-right hidden-xs showopacity glyphicon glyphicon-home"
+                ></span
+              ></a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                >Lessons <span class="caret"></span
+                ><span
+                  style="font-size: 16px"
+                  class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"
+                ></span
+              ></a>
+              <ul class="dropdown-menu" role="menu">
+                <!-- forAnimate -->
+                {% for lesson in lessons %}
+                <li>
+                  <a href="#" onclick="getv(`{{lesson.lesson_link}}`)">
+                    {{lesson.lesson_name}}
+                    <span
+                      class="showopacity glyphicon glyphicon-facetime-video"
+                    ></span>
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
+            <li>
+              <a
+                href=""
+                data-backdrop="false"
+                id="QuizButton"
+                data-toggle="modal"
+                data-target="#exampleModalCenter"
+                >Qiuz<span
+                  style="font-size: 16px"
+                  class="pull-right hidden-xs showopacity glyphicon glyphicon-pencil"
+                ></span
+              ></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- sidebar-menu  -->
+  </div>
+  <div class="column middle">
+    {% include 'messages.html' %}
+    <h2 style="margin-left: 150px">{{course.course_name}}</h2>
+    <p>
+      {% for lesson in lessons %} {% if forloop.first %}
+      <iframe
+        id="ytplayer"
+        type="text/html"
+        width="640"
+        height="360"
+        src="{{lesson.lesson_link}}"
+        frameborder="0"
+      >
+        {% endif %}
+      </iframe>
+      {% endfor %}
+    </p>
+    <p style="margin-right: 1000px">{{course.description}}</p>
+  </div>
+  <div class="column side"></div>
+</div>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="header-section text-center">
+          <h2>{{quiz.quiz_name}}</h2>
+          <p>Good Luck ^-^</p>
+          <hr class="bottom-line" />
+          {% for question in qustions %}
+          <form id="formABC" method="POST" action="/takeQuiz/{{question.id}}">
+            {% csrf_token %}
+            <h3>Q{{question.id}}: {{question.question_name}} ?</h3>
+            {% for choice in question.choices %}
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                name="choices"
+                type="radio"
+                id="choice{{choice.id}}"
+                value="{{choice}}"
+              />
+              <label class="form-check-label" for="flexRadioDefault1">
+                {{choice}}
+              </label>
+            </div>
+            <!-- <input name='choices' type="radio" id ="choice{{choice.id}}" value="{{choice}}" > {{choice}}</input> -->
+            {% endfor %}
+            <!-- <h1>{{UserAnswer.score}}</h1> -->
+            <!-- {% if UserAnswer.score == 0 %}
+          <h4> Incorrect </h4>
+          {% elif UserAnswer.score == 1 %}
+          <h4> correct </h4>
+          {% endif %} 
+          <br> -->
+            <br />
+            <input
+              type="submit"
+              id="btnSubmit"
+              class="btn btn-green"
+              name="submit_button"
+              value="submit"
+            />
+            <br />
+          </form>
+          {% endfor %}
+          <br />
+          <br />
+          <div>
+            {% for message in messages %}
+            <p id="mpass">{{message}}</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+{% if isMaryam %}
+<script>
+  $(window).load(function () {
+    document.querySelector("#QuizButton").click();
+  });
+</script>
+{% endif %}
+<script>
+  function getv(lesson) {
+    document.getElementById("ytplayer").src = lesson;
+    console.log(lesson);
+  }
+</script>
+{% endblock %}
